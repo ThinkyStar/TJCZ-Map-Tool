@@ -1,0 +1,91 @@
+{
+    "svgViewBoxZoom": 50,
+    "svgViewBoxMin": {
+        "x": 100,
+        "y": 100
+    },
+    "graph": {
+        "options": {
+            "type": "directed",
+            "multi": true,
+            "allowSelfLoops": true
+        },
+        "attributes": {},
+        "nodes": [
+            {
+                "key": "misc_node_XXXXXXXXXX",
+                "attributes": {
+                    "visible": true,
+                    "zIndex": 0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "type": "virtual",
+                    "virtual": {}
+                }
+            },
+            {
+                "key": "stn_XXXXXXXXXX",
+                "attributes": {
+                    "visible": true,
+                    "zIndex": 0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "type": "shmetro-basic",
+                    "shmetro-basic": {
+                        "names": ["中文站名", "English Station Name"], 
+                        "nameOffsetX": "right",
+                        "nameOffsetY": "top"
+                    }
+                }
+            },
+            {
+                "key": "stn_XXXXXXXXXX",
+                "attributes": {
+                    "visible": true,
+                    "zIndex": 0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "type": "shmetro-osysi",
+                    "shmetro-osysi": {
+                        "names": [
+                            "换乘线路中文名",
+                            "Transfer Line English Name"
+                        ],
+                            "nameOffsetX": "right",
+                            "nameOffsetY": "top"
+                    }
+                }
+            }
+        ],
+        "edges": [
+            {
+                "key": "line_XXXXXXXXX",
+                "source": "misc_node_XXXXXXXXXX",
+                "target": "misc_node_XXXXXXXXXX",
+                "attributes": {
+                    "visible": true,
+                    "zIndex": 0,
+                    "type": "diagonal",
+                    "diagonal": {
+                        "startFrom": "from",
+                        "offsetFrom": 0,
+                        "offsetTo": 0,
+                        "roundCornerFactor": 10
+                    },
+                    "style": "single-color",
+                    "single-color": {
+                        "color": [
+                            "other",
+                            "other",
+                            "#xxxxxx",
+                            "#fff"
+                        ]
+                    },
+                    "reconcileId": "",
+                    "parallelIndex": -1
+                }
+            }
+        ]
+    },
+    "version": 53
+}

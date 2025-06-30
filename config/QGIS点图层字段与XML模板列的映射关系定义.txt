@@ -1,0 +1,88 @@
+# QGIS 点图层字段与XML模板列的映射关系定义
+#
+# 此文档用于记录在QGIS中创建点图层时推荐的字段名称和类型，
+# 以及这些字段如何映射到最终导出的XML文件中的列名。
+#
+# 注意：
+# 1. 字段顺序在QGIS中不重要，脚本按名称匹配。
+# 2. Shapefile字段名有10个字符的限制。如果XML需要的字段名超过此限制，
+#    请在QGIS中使用短名称，并务必更新Python脚本中的 'qgis_field_to_xml_header_map' 字典。
+# 3. 'X' 和 'Y' 坐标由脚本自动从点几何中提取并转换为EPSG:4326（坐标投影）。
+# 4. 'id' 字段如果为空，脚本将自动生成一个唯一ID。
+#
+# -----------------------------------------------------------------------------
+# QGIS 图层字段定义
+# -----------------------------------------------------------------------------
+#
+# 字段名称 (QGIS中创建)  | 数据类型 (QGIS) | XML模板中的对应列名      | 备注
+# ----------------------|-----------------|--------------------------|----------------------------------------------------------
+# name                  | Text (字符串)   | name                     | 线路名称 (如: "1号线", "Line 1")
+# color                 | Text (字符串)   | color                    | 线路颜色 (如: "#E3002B")
+# direction             | Text (字符串)   | direction                | 线路方向 (如: "SN", "WE")
+# seq                   | Text (字符串)   | seq                      | 线路内站点的序列号/编号 (如: "L1_1", "L3_8","L6_2"等，标准格式为"LX_Y",X表示线路号码，Y表示站点顺序)
+# type                  | Text (字符串)   | type                     | 站点类型 (如: "S" 代表普通站, "T" 代表换乘站)
+# name_zh               | Text (字符串)   | name_zh                  | 站点中文名称
+# name_en               | Text (字符串)   | name_en                  | 站点英文名称
+# id                    | Text (字符串)   | id                       | 站点的唯一标识符。如果QGIS中为空，脚本会自动生成UUID。
+# FHM_No                | Text (字符串)   | Firm_Highway_Number      | 附加字段，QGIS中建议用短名称 (如 FHM_No, 最多10字符)
+#
+# 换乘线路字段 (可扩展，根据需要添加更多)
+# QGIS中建议使用短名称，例如 't_line1', 't_line2', ..., 't_lineN'
+# ----------------------|-----------------|--------------------------|----------------------------------------------------------
+# t_line1               | Text (字符串)   | transfer_line_1          | 换乘线路1的信息
+# t_line2               | Text (字符串)   | transfer_line_2          | 换乘线路2的信息
+# t_line3               | Text (字符串)   | transfer_line_3          | 换乘线路3的信息
+# t_line4               | Text (字符串)   | transfer_line_4          | 换乘线路4的信息
+# t_line5               | Text (字符串)   | transfer_line_5          | 换乘线路5的信息
+# t_line6               | Text (字符串)   | transfer_line_6          | 换乘线路6的信息
+# t_line7               | Text (字符串)   | transfer_line_7          | 换乘线路7的信息 (如果需要更多，请按此模式添加)
+# t_line8               | Text (字符串)   | transfer_line_8          | 换乘线路8的信息 (如果需要更多，请按此模式添加)
+# ...                   |                 | ...                      |
+#
+# 自动生成字段 (不需要在QGIS中手动创建)
+# ----------------------|-----------------|--------------------------|----------------------------------------------------------
+# (来自几何信息)        | (内部处理)      | x                        | 点的X坐标 (EPSG:4326 投影坐标)
+# (来自几何信息)        | (内部处理)      | y                        | 点的Y坐标 (EPSG:4326 投影坐标)
+#
+#  -----------------------------------------------------------------------------
+#  Python 脚本中 'qgis_field_to_xml_header_map' 字典配置示例
+#  -----------------------------------------------------------------------------
+# 
+#  在 'qgis_advanced_xml_exporter.py' 文件中，找到 `process_and_export_qgis_layers_to_xml` 函数内的
+#  `qgis_field_to_xml_header_map` 字典。根据你在QGIS中实际使用的短名称进行配置。
+# 
+#  示例配置 (请根据你在QGIS中创建的短名称调整):
+# 
+#  qgis_field_to_xml_header_map = {
+#      # 如果 Firm_Highway_Number 在 QGIS 中创建为 'FHM_No'
+#      'FHM_No': 'Firm_Highway_Number',
+#  }
+#   #为 transfer_line_X 字段自动生成映射，假设在 QGIS 中使用 't_lineX' 命名规则
+#   #如果你使用 'TLX' 或其他规则，请相应修改 f"t_line{i}"
+# # for i in range(1, num_transfer_lines + 1): # num_transfer_lines 参数决定循环次数
+# #     qgis_short_name = f"t_line{i}"
+# #     xml_long_name = f"transfer_line_{i}"
+# #     qgis_field_to_xml_header_map[qgis_short_name] = xml_long_name
+# #
+# #
+# # -----------------------------------------------------------------------------
+# # 运行脚本时的参数示例
+# # -----------------------------------------------------------------------------
+# #
+# # 在 QGIS Python 控制台中运行：
+# #
+# # import importlib
+# # import qgis_advanced_xml_exporter
+# # importlib.reload(qgis_advanced_xml_exporter)
+# #
+# # from qgis_advanced_xml_exporter import process_and_export_qgis_layers_to_xml
+# #
+# # layers_to_process = ["你的QGIS图层名称"] # 例如: ["MyMetroStations"] 
+# # output_xml_file = "C:/Users/[你的用户名]/Desktop/exported_stations_data.xml"
+# # num_transfer_lines_to_include = 8 # 根据你实际需要的 transfer_line 数量设置
+# #
+# # process_and_export_qgis_layers_to_xml(
+# #     layers_to_process,
+# #     output_xml_file,
+# #     num_transfer_lines=num_transfer_lines_to_include
+# # )
