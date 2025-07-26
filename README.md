@@ -16,6 +16,6 @@
 - ### 👋 **小小邀约**
 我非常期待各位开发者大佬、设计师大神及诸位地图可视化爱好者加入我的项目，一起让这个项目更加好玩！
 
-小微的邮箱：[3081482117@qq.com](https://www.google.com/url?sa=E&q=mailto%3A3081482117%40qq.com)  
-项目地址：[https://github.com/ThinkyStar/TJCZ-Map-Tool]((https://github.com/ThinkyStar/TJCZ-Map-Tool)
-源项目地址：[https://github.com/railmapgen/rmp](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2Frailmapgen%2Frmp)
+小微的邮箱：3081482117@qq.com
+本项目地址：https://github.com/ThinkyStar/TJCZ-Map-Tool)
+源项目地址：https://github.com/railmapgen/rmp
